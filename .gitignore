@@ -1,0 +1,12 @@
+node_modules
+crunch-js.js
+.idea
+.idea/*
+*.swp
+build
+dist
+examples/crunch.js
+examples/templates.js
+examples/crunch.css
+secrets.js
+

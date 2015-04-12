@@ -1,0 +1,17 @@
+{
+  "name": "asynchronous-part-1",
+  "version": "1.0.0",
+  "description": "Demonstration project of the power of promises",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cheerio": "^0.19.0"
+  }
+}
