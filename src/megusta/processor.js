@@ -29,13 +29,13 @@ module.exports = function processor(rawContent) {
         });
 
         function getPercentage(string){
-            return parseInt((/\((\d+)%\)/gi).exec(string)[1]) / 100;
+            return parseInt((/\((\d+)%\)/gi).exec(string)[1], 10) / 100;
         }
 
         function formatNumber(number){
-            return parseInt(number.replace(/RD\$\s+/, "").replace(".",""));
+            return parseInt(number.replace(/RD\$\s+/, "").replace(".",""), 10);
         }
     });
 
-    return deals
+    return dealsCollection;
 };
