@@ -1,2 +1,4 @@
 node_modules
 .idea
+presentation/node_modules
+presentation/test
