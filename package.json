@@ -1,0 +1,19 @@
+{
+  "name": "asynchronous-part-1",
+  "version": "0.0.1",
+  "description": "Demonstration project about the uses of promises to handle complex asynchronous flows",
+  "main": "index.js",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/enriquecastl/asynchronous-part-1.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/enriquecastl/asynchronous-part-1/issues"
+  },
+  "homepage": "https://github.com/enriquecastl/asynchronous-part-1"
+}
