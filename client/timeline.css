@@ -1,0 +1,57 @@
+.timeline {
+    border-left: 2px solid black;
+    height: 300px;
+    border-bottom: 2px solid black;
+    width: 700px;
+    padding: 0 20px;
+    display: flex;
+    align-items: flex-end;
+    position: relative;
+}
+
+.timeline .events {
+    flex-grow: 1;
+    display: flex;
+}
+
+.timeline .event {
+    height: 100px;
+    width: 30px;
+    border: 1px solid black;
+    border-bottom: none;
+    margin: 0px 10px;
+}
+
+.timeline .event.red {
+    background-color: #C3554B
+}
+
+.timeline .event.green {
+    background-color: #4F6F25
+}
+
+.timeline .event.yellow {
+    background-color: #CDC76A
+}
+
+.timeline .arrow {
+    right: 0;
+    position: absolute;
+    bottom: 0px;
+}
+
+.timeline .arrow::before {
+    content: '';
+    border-top: 2px solid black;
+    display: block;
+    width: 15px;
+    transform: rotate(30deg);
+}
+
+.timeline .arrow::after {
+    content: '';
+    border-top: 2px solid black;
+    display: block;
+    width: 15px;
+    transform: translate(0, 5px) rotate(152deg);
+}
