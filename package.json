@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/enriquecastl/asynchronous-part-1/issues"
   },
-  "homepage": "https://github.com/enriquecastl/asynchronous-part-1"
+  "homepage": "https://github.com/enriquecastl/asynchronous-part-1",
+  "dependencies": {
+    "express": "^4.12.3"
+  }
 }
