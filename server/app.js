@@ -2,7 +2,7 @@ var express = require('express');
 var serveStatic = require('serve-static');
 var app = express();
 
-app.use(serveStatic('../client', {'index': ['index.html']}));
+app.use(serveStatic('../presentation', {'index': ['index.html']}));
 app.get(/\w+\.txt$/, function(req, res) {
     var waitUntil = parseInt(req.query.waitUntil, 10) || 10;
 

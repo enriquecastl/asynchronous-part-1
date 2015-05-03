@@ -1,9 +1,9 @@
 .timeline {
-    border-left: 2px solid black;
+    border-left: 2px solid black !important;
     height: 300px;
-    border-bottom: 2px solid black;
+    border-bottom: 2px solid black !important;
     width: 700px;
-    padding: 0 20px;
+    padding: 0 20px !important;
     display: flex;
     align-items: flex-end;
     position: relative;
@@ -19,7 +19,7 @@
     width: 20px;
     border: 1px solid black;
     border-bottom: none;
-    margin: 0px 10px;
+    margin: 0px 10px !important;
 }
 
 .timeline .event.red {
@@ -60,7 +60,7 @@
     display: flex;
     width: 700px;
     justify-content: space-between;
-    padding: 20px 0;
+    padding: 20px 0 !important;
 }
 
 .actions button {
