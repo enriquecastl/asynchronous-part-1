@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/enriquecastl/asynchronous-part-1",
   "dependencies": {
-    "express": "^4.12.3"
+    "express": "^4.12.3",
+    "serve-static": "^1.9.2"
   }
 }

@@ -61,13 +61,13 @@ TimeLine.prototype.getRunningTimes = function() {
     return window.performance.getEntriesByType('measure').map(function(m) {
         return {
             name : m.name.replace('-measure', ''),
-            duration : (Math.round(m.duration) || 1)
+            duration : (Math.round((m.duration / 1000)) || 1)
         }
     });
 };
 
 function TimeLineView() {
-    this.defaultEventSize = 30;
+    this.defaultEventSize = 20;
     this.$el = document.querySelector('.timeline')
 }
 
@@ -104,10 +104,36 @@ timeLine.on('runningTimes.updated', function(runningTimes) {
             case 'sayHello':
                 timeLineView.drawEvent(runningTime.duration, 'red');
                 break;
+            case 'downloadLargeFileSync':
+            case 'downloadLargeFileAsync':
+                timeLineView.drawEvent(runningTime.duration, 'green');
+                break;
+            case 'receiveFile':
+                timeLineView.drawEvent(runningTime.duration, 'yellow');
+                break;
             default:
                 console.log('not drawing event')
         }
     });
 });
 
-timeLineView.drawEvent();
+var sayHelloButton = document.querySelector('button.say-hello');
+var downloadLargeFileSync = document.querySelector('button.download-large-file-sync');
+var downloadLargeFileAsync = document.querySelector('button.download-large-file-async');
+
+sayHelloButton.addEventListener('click', timeLine.trackRunningTime(function sayHello() {
+    console.log('Hello, World?');
+}));
+
+downloadLargeFileSync.addEventListener('click',
+    timeLine.trackRunningTime(function downloadLargeFileSync() {
+        downloadFileSync('file1', 10000)
+    })
+);
+
+downloadLargeFileAsync.addEventListener('click',
+    timeLine.trackRunningTime(function downloadLargeFileAsync() {
+        downloadFile('file2', 10000).then(timeLine.trackRunningTime(function receiveFile() {
+        }));
+    })
+);

@@ -1,16 +1,23 @@
 <html>
     <head>
         <title>Asynchronous</title>
-        <link rel="stylesheet" href="timeline.css">
+        <link rel="stylesheet" href="timeline/timeline.css">
     </head>
     <body>
         <div class="timeline">
             <div class="events">
-                <div class="event red">
-                </div>
             </div>
             <span class="arrow"></span>
         </div>
-        <script src="timeline.js"></script>
+
+        <div class="actions">
+            <button class="say-hello" type="button">Say Hello</button>
+            <button class="download-large-file-sync" type="button">Download Large File (Sync)</button>
+            <button class="download-large-file-async" type="button">Download Large File (Async)</button>
+        </div>
+        <script src="lib/q.js"></script>
+        <script src="download-files/download-files.js"></script>
+        <script src="timeline/timeline.js"></script>
+
     </body>
 </html>
