@@ -1,8 +1,11 @@
+.large-width {
+    width: 700px;
+}
+
 .timeline {
     border-left: 2px solid black !important;
     height: 300px;
     border-bottom: 2px solid black !important;
-    width: 700px;
     padding: 0 20px !important;
     display: flex;
     align-items: flex-end;
@@ -58,8 +61,7 @@
 
 .actions {
     display: flex;
-    width: 700px;
-    justify-content: space-between;
+    justify-content: center;
     padding: 20px 0 !important;
 }
 
@@ -71,4 +73,5 @@
     height: 50px;
     font-size: 16px;
     border-radius: 7px;
+    margin-right: 10px !important;
 }

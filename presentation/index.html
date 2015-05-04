@@ -60,22 +60,263 @@
                 </section>
 
                 <section>
-                    <h2>Web Browser: Una plataforma asíncrona</h2>
+                    <h3>Web Browser: Una plataforma asíncrona</h3>
                     <p>¿Por qué?</p>
-                </section>
 
-                <section>
-                    <div class="timeline">
+                    <div class="timeline large-width">
                         <div class="events">
                         </div>
                         <span class="arrow"></span>
                     </div>
 
-                    <div class="actions">
+                    <div class="actions large-width">
                         <button class="say-hello" type="button">Say Hello</button>
                         <button class="download-large-file-sync" type="button">Download Large File (Sync)</button>
                         <button class="download-large-file-async" type="button">Download Large File (Async)</button>
                     </div>
+                </section>
+                <section>
+                    <section>
+                        <h1>Promises</h1>
+                        <p>¿Para qué sirven?</p>
+                    </section>
+                    <section>
+                        <h3>Representa el estado <em>eventual</em> de una operación asíncrona</h3>
+                    </section>
+                    <section>
+                        <section>
+                            <h2>Estructura de un objecto promise</h2>
+                            <pre>
+                                <code data-trim contenteditable="false">
+var promise = {
+    state : 'pending', // Either 'pending' || 'fulfilled' || 'rejected'
+    then : function(onFulfilled, onRejected) {
+        //Allows to react to a resolved promise
+    }
+}
+                                </code>
+                            </pre>
+                        </section>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Escenario 1</h3>
+                        <p>Reaccionar ante una operación asíncrona</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation() {
+    var downloadPromise = downloadFile('file1');
+    downloadPromise
+    .then(notifyDownloadSucceed) //If the operation succeeds, we call notifyFileDownloadSuccess
+    .catch(notifyDownloadFailed) //If the operation fails, we call notifyFileDownloadError
+
+    eventEmitter.emit('download.started', { file : fileURL })
+}
+
+function notifyDownloadSucceed(fileContent) {
+    //Do something else here
+}
+
+function notifyDownloadFailed(fileContent) {
+    //Do something here
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                         <div class="actions">
+                             <button class="esc-1-start-download">Start download</button>
+                         </div>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Escenario 2</h3>
+                        <p>Enlazar promises</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation(fileURL) {
+    var tokenPromise = requestToken()
+        ;
+
+    tokenPromise
+    .then(function(token) {
+        return downloadFile(fileURL, token)
+    })
+    .then(notifyDownloadSucceed)
+    .catch(notifyDownloadFailed)
+
+    eventEmitter.emit('download.started', { file : fileURL })
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <div class="actions">
+                            <button class="esc-1-start-download">Start download</button>
+                        </div>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Escenario 3</h3>
+                        <p>Mapping promises</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation(fileURLs) {
+    return requestToken()
+    .then(function(t) {
+        return Q.all(fileURLs.map(function(file) {
+            return downloadFile(file, token)
+        }))
+    })
+    .then(notifyDownloadSucceed) // This will be called once all the files are downloaded
+    .catch(notifyDownloadFailed) // If one of the files could not be downloaded, then catch will be called
+    //Code hidden to save some space
+}
+
+//... not displayed here for space reasons..
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <div class="actions">
+                            <button class="esc-1-start-download">Start download</button>
+                        </div>
+                    </section>
+
+                    <section>
+                        <h3>Escenario 3.1</h3>
+                        <p>Mapping more promises</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation(fileURLs) {
+    var token //Notice how we're storing the token in a variable outside the promise's scope
+
+    return requestToken()
+    .then(function(t) {
+        token = t
+        return Q.all(fileURLs.map(function(file) {
+            return downloadFile(file, token)
+        }))
+    })
+    .then(function(files) {
+        return Q.all(files.map(function(file) {
+            return downloadMetadata(file.metaURL, token)
+        }))
+    })
+    //Code hidden to save some space
+}
+
+//... not displayed here for space reasons..
+//... not displayed here for space reasons..
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+                <section>
+                    <section>
+                        <h3>Escenario 4</h3>
+                        <p>Simplificando con reduce</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation(fileURLs) {
+    var token,
+        files,
+        metadata
+
+    return requestToken()
+    .then(function(t) {
+        token = t
+        return Q.all(fileURLs.map(function(file) {
+            return downloadFile(file, token)
+        }))
+    })
+    .then(function(f) {
+        files = f
+        return Q.all(files.map(function(file) {
+            return downloadMetadata(file.metaURL, token)
+        }))
+    })
+    .then(function(m) {
+        metadata = m
+        return saveDownloadedFilesInfo({
+            files : files,
+            metadata : metadata,
+            downloadToken : token
+        })
+    })
+    .then(notifyDownloadSucceed) // This will be called once all the files are downloaded
+    .catch(notifyDownloadFailed) // If one of the files could not be downloaded, then catch will be called
+    //Code hidden to save some space
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h3>Escenario 4</h3>
+                        <p>Simplificando con reduce</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function reduce(fnDict) {
+    var accum = {},
+        keys = Object.keys(fns),
+        fns = keys.map(function(key) { return fnDict[key] }),
+        result
+        ;
+
+    if(!fns.length) {
+        result = Q.when(accum)
+    } else {
+        result = fns.reduce(function(prev, next, index) {
+            return prev.then(function(data) {
+                accum[keys[index]] = data
+                return next(accum, data)
+            })
+        })
+    }
+
+    result
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h3>Escenario 4</h3>
+                        <p>Simplificando con reduce</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation(fileURLs) {
+    return reduce({
+        token : requestToken,
+        files : function(accum, token) {
+            return Q.all(fileURLs.map(function(file) {
+                return downloadFile(file, token)
+            }))
+        },
+        metadata : function(accum, files) {
+            return Q.all(files.map(function(file) {
+                return downloadMetadata(file.metaURL, accum.token)
+            }))
+        },
+        saveResults : saveDownloadedFilesInfo
+    })
+    .then(notifyDownloadSucceed)
+    .catch(notifyDownloadFailed)
+}
+                            </code>
+                        </pre>
+                    </section>
+                </section>
+                <section>
+                    <h3>Escenario 5</h3>
+                    <p>Generators for the win!</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+                                //writing some code here
+                            </code>
+                        </pre>
                 </section>
             </div>
         </div>
