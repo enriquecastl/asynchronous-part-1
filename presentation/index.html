@@ -57,6 +57,12 @@
                         <p class="fragment">More than 3 years working almost exclusively on designing and implementing
                             large scale SPAs</p>
                     </section>
+                    <section>
+                        <p>Algunos enlaces</p>
+                        <p>Twitter <a href="https://twitter.com/enriquecastl">@enriquecastl</a></p>
+                        <p>Github <a href="https://github.com/enriquecastl">@enriquecastl</a></p>
+                        <p><a href="https://enriquecastl.info">enriquecastl.info</a> </p>
+                    </section>
                 </section>
 
                 <section>
@@ -90,7 +96,7 @@
                                 <code data-trim contenteditable="false">
 var promise = {
     state : 'pending', // Either 'pending' || 'fulfilled' || 'rejected'
-    then : function(onFulfilled, onRejected) {
+    then : function(onFulfilled, onRejected, onProgress) {
         //Allows to react to a resolved promise
     }
 }
@@ -107,19 +113,49 @@ var promise = {
                             <code data-trim contenteditable="false">
 function startDownloadOperation() {
     var downloadPromise = downloadFile('file1');
-    downloadPromise
-    .then(notifyDownloadSucceed) //If the operation succeeds, we call notifyFileDownloadSuccess
-    .catch(notifyDownloadFailed) //If the operation fails, we call notifyFileDownloadError
+    return downloadPromise
+           .then(notifyDownloadSucceed, notifyDownloadFailed, notifyProgress)
 
-    eventEmitter.emit('download.started', { file : fileURL })
 }
 
 function notifyDownloadSucceed(fileContent) {
-    //Do something else here
+
 }
 
 function notifyDownloadFailed(fileContent) {
-    //Do something here
+
+}
+
+function notifyProgress(){
+
+}
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <h3>Escenario 1.1</h3>
+                        <p>Usando métodos done, catch y progress</p>
+                        <pre>
+                            <code data-trim contenteditable="false">
+function startDownloadOperation() {
+    var downloadPromise = downloadFile('file1');
+
+    return downloadPromise
+        .then(notifyDownloadSucceed)
+        .progress(notifyProgress)
+        .catch(notifyDownloadFailed)
+}
+
+function notifyDownloadSucceed(fileContent) {
+
+}
+
+function notifyDownloadFailed(fileContent) {
+
+}
+
+function notifyProgress(){
+
 }
                             </code>
                         </pre>
@@ -151,6 +187,11 @@ function startDownloadOperation(fileURL) {
 }
                             </code>
                         </pre>
+                    </section>
+                    <section>
+                        <h3>Escenario 2</h3>
+                        <p>Enlazar Promises</p>
+                        <img src="img/promise-resolution.png" alt="Promise Resolution">
                     </section>
                     <section>
                         <div class="actions">
@@ -327,6 +368,7 @@ function startDownloadOperation(fileURLs) {
         <script src="js/reveal.js"></script>
         <script src="js/timeline/timeline.js"></script>
         <script src="js/download-files/download-files.js"></script>
+        <script src="js/download-files/start-download-operation.js"></script>
 
         <script>
 

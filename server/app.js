@@ -1,3 +1,5 @@
+"use strict";
+
 var express = require('express');
 var serveStatic = require('serve-static');
 var app = express();
@@ -10,6 +12,10 @@ app.get(/\w+\.txt$/, function(req, res) {
         res.set('Content-Type', 'text/plain');
         res.send('File content');
     }, waitUntil);
+});
+
+app.get(/invalid\/\w+\.txt$/, function(req, res) {
+    res.status(400).send('Bad file request')
 });
 
 var server = app.listen(3000, function(app) {
