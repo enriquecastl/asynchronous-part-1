@@ -42,6 +42,39 @@ function startDownloadOperationScene3(fileURLs) {
     .catch(notifyDownloadFailed)
 }
 
+function startDownloadOperationScene4(fileURLs) {
+    return reduce({
+        token : requestToken,
+        files : function(accum, token) {
+            return Q.all(fileURLs.map(function(file) {
+                return downloadFile(file, token)
+            }))
+        },
+        metadata : function(accum, files) {
+            return Q.all(files.map(function(file) {
+                return downloadMetadata(file.metaURL, accum.token)
+            }))
+        },
+        saveResults : saveDownloadedFilesInfo
+    })
+    .then(notifyDownloadSucceed)
+    .catch(notifyDownloadFailed)
+}
+
+var startDownloadOperationScene5 = async(function* (fileURLs) {
+    var token,
+        files,
+        metadata;
+
+    try {
+        token = yield requestToken();
+        files = yield Q.all(fileURLs.map(file => downloadFile(file, token)));
+        metadata = yield Q.all(files.map(file => downloadMetadata(file.metaURL, token)));
+        yield saveDownloadedFilesInfo(token, files, metadata)
+    } catch(e) {
+        throw new Error('Error completing the download operation. Try again later.')
+    }
+});
 
 function notifyDownloadSucceed(fileContent) {
     console.log('The file was downloaded')
@@ -53,4 +86,8 @@ function notifyDownloadFailed(fileContent) {
 
 function notifyProgress() {
     console.log("we're making some progress here")
+}
+
+function notifyFileDownloaded(file) {
+    console.log(file, ' was downloaded')
 }

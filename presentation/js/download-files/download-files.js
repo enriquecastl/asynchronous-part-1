@@ -68,6 +68,13 @@ function downloadInvalidFile(fileName, duration) {
     })
 }
 
+function saveDownloadedFilesInfo(data) {
+    return Q.promise(function(resolve) {
+        console.log(data, ' was saved');
+        resolve();
+    })
+}
+
 function downloadFileSync(fileName, duration) {
     downloadFile(fileName, duration, true)
 }

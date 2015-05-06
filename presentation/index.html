@@ -333,11 +333,53 @@ function startDownloadOperation(fileURLs) {
                             </code>
                         </pre>
                     </section>
+                    <section>
+                        <div class="actions">
+                            <button class="esc-4-start-download">Start download</button>
+                        </div>
+                    </section>
                 </section>
                 <section>
-                    <h3>Escenario 5</h3>
-                    <p>Generators for the win!</p>
+                    <section>
+                        <h3>Escenario 4</h3>
+                        <p>Generators for the win!</p>
+                    </section>
+                    <section>
+                        <pre>
+                            <code data-trim contenteditable="false">
+var startDownloadOperationScene5 = async(function* (fileURLs) {
+    var token,
+        files,
+        metadata;
 
+    try {
+        token = yield requestToken();
+        files = yield Q.all(fileURLs.map(file => downloadFile(file, token)));
+        metadata = yield Q.all(files.map(file => downloadMetadata(file.metaURL, token)));
+        yield saveDownloadedFilesInfo(token, files, metadata)
+    } catch(e) {
+        throw new Error('Error completing the download operation. Try again later.')
+    }
+});
+                            </code>
+                        </pre>
+                    </section>
+                    <section>
+                        <div class="actions">
+                            <button class="esc-5-start-download">Start download</button>
+                        </div>
+                    </section>
+                    <section>
+                        <h3>Para saber más sobre generators y promises</h3>
+                        <li>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Generator">
+                                Generators
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.promisejs.org/generators/">Generators and Promises</a>
+                        </li>
+                    </section>
                 </section>
             </div>
         </div>
@@ -346,6 +388,8 @@ function startDownloadOperation(fileURLs) {
         <script src="lib/js/q.js"></script>
         <script src="node_modules/lodash/index.js"></script>
         <script src="js/reveal.js"></script>
+        <script src="js/async/async.js"></script>
+        <script src="js/timeline/performance-polyfill.js"></script>
         <script src="js/timeline/timeline.js"></script>
         <script src="js/promises/reduce.js"></script>
         <script src="js/download-files/download-files.js"></script>
