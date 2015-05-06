@@ -27,7 +27,7 @@ function notifyDownloadSucceed(fileContent) {
 }
 
 function notifyDownloadFailed(fileContent) {
-    //Do something here
+    console.log(`Couldn't download file`)
 }
 
 function notifyProgress() {
@@ -35,14 +35,14 @@ function notifyProgress() {
 }
 
 var downloadSce1Button = document.querySelector('button.esc-1-start-download')
+    , downloadSce2Button = document.querySelector('button.esc-2-start-download')
     ;
+
 
 downloadSce1Button.addEventListener('click', function() {
     startDownloadOperationScene1('file1')
 });
 
-var downloadSce2Button = document.querySelector('button.esc-1-start-download')
-    ;
 
 downloadSce2Button.addEventListener('click', function() {
     startDownloadOperationScene2('file1')

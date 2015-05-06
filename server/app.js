@@ -15,7 +15,7 @@ app.get(/\w+\.txt$/, function(req, res) {
 });
 
 app.get(/invalid\/\w+\.txt$/, function(req, res) {
-    res.status(400).send('Bad file request')
+    res.sendStatus(400);
 });
 
 var server = app.listen(3000, function(app) {

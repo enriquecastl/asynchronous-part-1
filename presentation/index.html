@@ -58,7 +58,6 @@
                             large scale SPAs</p>
                     </section>
                     <section>
-                        <p>Algunos enlaces</p>
                         <p>Twitter <a href="https://twitter.com/enriquecastl">@enriquecastl</a></p>
                         <p>Github <a href="https://github.com/enriquecastl">@enriquecastl</a></p>
                         <p><a href="https://enriquecastl.info">enriquecastl.info</a> </p>
@@ -90,18 +89,26 @@
                         <h3>Representa el estado <em>eventual</em> de una operación asíncrona</h3>
                     </section>
                     <section>
+                        <img src="img/asynchronous-vs-synchronous.png">
+                    </section>
+                    <section>
                         <section>
-                            <h2>Estructura de un objecto promise</h2>
+                            <h2>El objeto promise</h2>
                             <pre>
                                 <code data-trim contenteditable="false">
 var promise = {
     state : 'pending', // Either 'pending' || 'fulfilled' || 'rejected'
     then : function(onFulfilled, onRejected, onProgress) {
         //Allows to react to a resolved promise
-    }
+    },
 }
                                 </code>
                             </pre>
+                            <small>
+                                <a href="https://promisesaplus.com/">
+                                Especificación Promises A/+
+                                </a>
+                            </small>
                         </section>
                     </section>
                 </section>
@@ -189,55 +196,29 @@ function startDownloadOperation(fileURL) {
                         </pre>
                     </section>
                     <section>
-                        <h3>Escenario 2</h3>
-                        <p>Enlazar Promises</p>
                         <img src="img/promise-resolution.png" alt="Promise Resolution">
                     </section>
                     <section>
                         <div class="actions">
-                            <button class="esc-1-start-download">Start download</button>
+                            <button class="esc-2-start-download">Start download</button>
                         </div>
                     </section>
                 </section>
                 <section>
                     <section>
                         <h3>Escenario 3</h3>
-                        <p>Mapping promises</p>
+                        <p>Map and Reduce</p>
+                    </section>
+                    <section>
+                        <h3>Map</h3>
                         <pre>
                             <code data-trim contenteditable="false">
 function startDownloadOperation(fileURLs) {
-    return requestToken()
+    var tokenPromise = requestToken()
+        ;
+
+    token
     .then(function(t) {
-        return Q.all(fileURLs.map(function(file) {
-            return downloadFile(file, token)
-        }))
-    })
-    .then(notifyDownloadSucceed) // This will be called once all the files are downloaded
-    .catch(notifyDownloadFailed) // If one of the files could not be downloaded, then catch will be called
-    //Code hidden to save some space
-}
-
-//... not displayed here for space reasons..
-                            </code>
-                        </pre>
-                    </section>
-                    <section>
-                        <div class="actions">
-                            <button class="esc-1-start-download">Start download</button>
-                        </div>
-                    </section>
-
-                    <section>
-                        <h3>Escenario 3.1</h3>
-                        <p>Mapping more promises</p>
-                        <pre>
-                            <code data-trim contenteditable="false">
-function startDownloadOperation(fileURLs) {
-    var token //Notice how we're storing the token in a variable outside the promise's scope
-
-    return requestToken()
-    .then(function(t) {
-        token = t
         return Q.all(fileURLs.map(function(file) {
             return downloadFile(file, token)
         }))
@@ -247,13 +228,21 @@ function startDownloadOperation(fileURLs) {
             return downloadMetadata(file.metaURL, token)
         }))
     })
-    //Code hidden to save some space
+    .then(notifyDownloadSucceed)
+    .catch(notifyDownloadFailed)
 }
 
 //... not displayed here for space reasons..
-//... not displayed here for space reasons..
                             </code>
                         </pre>
+                    </section>
+                    <section>
+                        <img src="img/map-reduce-flow.png">
+                    </section>
+                    <section>
+                        <div class="actions">
+                            <button class="esc-3-1-start-download">Start download</button>
+                        </div>
                     </section>
                 </section>
                 <section>

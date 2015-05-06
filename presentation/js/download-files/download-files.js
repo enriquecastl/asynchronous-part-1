@@ -1,15 +1,29 @@
 "use strict";
 
+function requestToken() {
+    return downloadFile('token')
+}
+
+function requestInvalidToken() {
+    return downloadInvalidFile('token')
+}
+
 function downloadFile(fileName, duration, sync) {
-    duration = duration || 1000;
+    duration = typeof duration === 'number' ? duration : 1000;
 
-    console.assert(fileName && typeof fileName === 'string', 'Provide a valid file name');
+    /*
+    Using native Promise implementation would like this:
 
+    return new Promise(function(resolve, reject) {
+        //Notice how we lost progress :(
+    })
+     */
     return Q.promise(function(resolve, reject, progress) {
         var request = new XMLHttpRequest()
             , progressInterval;
 
         request.open('GET', `/${fileName}.txt?waitUntil=${duration}`, !sync);
+        request.setRequestHeader('Cache-Control', 'no-cache');
 
         request.addEventListener('load', function() {
             clearInterval(progressInterval);
@@ -36,6 +50,7 @@ function downloadInvalidFile(fileName, duration) {
     return Q.promise(function(resolve, reject) {
         var request = new XMLHttpRequest();
 
+        request.setRequestHeader('Cache-Control', 'no-cache');
         request.open('GET', `/invalid/${fileName}.txt?waitUntil=${duration}`);
 
         request.addEventListener('load', function() {
