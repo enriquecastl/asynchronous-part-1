@@ -1,5 +1,9 @@
 "use strict";
 
+function downloadMetadata() {
+    return downloadFile('metadata')
+}
+
 function requestToken() {
     return downloadFile('token')
 }
@@ -27,7 +31,7 @@ function downloadFile(fileName, duration, sync) {
 
         request.addEventListener('load', function() {
             clearInterval(progressInterval);
-            resolve();
+            resolve({ metaURL : `${fileName}-meta.txt` });
         }, false);
         request.addEventListener('error', function() {
             clearInterval(progressInterval);

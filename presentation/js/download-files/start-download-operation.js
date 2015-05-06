@@ -21,6 +21,27 @@ function startDownloadOperationScene2(fileURL) {
         .catch(notifyDownloadFailed);
 }
 
+function startDownloadOperationScene3(fileURLs) {
+    var tokenPromise = requestToken(),
+        token
+        ;
+
+    tokenPromise
+    .then(function(t) {
+        token = t;
+        return Q.all(fileURLs.map(function(file) {
+            return downloadFile(file, token)
+        }))
+    })
+    .then(function(files) {
+        return Q.all(files.map(function(file) {
+            return downloadMetadata(file.metaURL, token)
+        }))
+    })
+    .then(notifyDownloadSucceed)
+    .catch(notifyDownloadFailed)
+}
+
 
 function notifyDownloadSucceed(fileContent) {
     console.log('The file was downloaded')
@@ -33,17 +54,3 @@ function notifyDownloadFailed(fileContent) {
 function notifyProgress() {
     console.log("we're making some progress here")
 }
-
-var downloadSce1Button = document.querySelector('button.esc-1-start-download')
-    , downloadSce2Button = document.querySelector('button.esc-2-start-download')
-    ;
-
-
-downloadSce1Button.addEventListener('click', function() {
-    startDownloadOperationScene1('file1')
-});
-
-
-downloadSce2Button.addEventListener('click', function() {
-    startDownloadOperationScene2('file1')
-});

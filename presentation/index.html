@@ -217,7 +217,7 @@ function startDownloadOperation(fileURLs) {
     var tokenPromise = requestToken()
         ;
 
-    token
+    tokenPromise
     .then(function(t) {
         return Q.all(fileURLs.map(function(file) {
             return downloadFile(file, token)
@@ -241,54 +241,50 @@ function startDownloadOperation(fileURLs) {
                     </section>
                     <section>
                         <div class="actions">
-                            <button class="esc-3-1-start-download">Start download</button>
+                            <button class="esc-3-start-download">Start download</button>
                         </div>
                     </section>
-                </section>
-                <section>
                     <section>
-                        <h3>Escenario 4</h3>
-                        <p>Simplificando con reduce</p>
+                        <h3>Reduce</h3>
                         <pre>
-                            <code data-trim contenteditable="false">
+                            <code data-trim content="false">
 function startDownloadOperation(fileURLs) {
     var token,
         files,
         metadata
+        ;
 
     return requestToken()
-    .then(function(t) {
-        token = t
-        return Q.all(fileURLs.map(function(file) {
-            return downloadFile(file, token)
-        }))
-    })
-    .then(function(f) {
-        files = f
-        return Q.all(files.map(function(file) {
-            return downloadMetadata(file.metaURL, token)
-        }))
-    })
-    .then(function(m) {
-        metadata = m
-        return saveDownloadedFilesInfo({
-            files : files,
-            metadata : metadata,
-            downloadToken : token
+        .then(function(t) {
+            token = t
+            return Q.all(fileURLs.map(function(file) {
+                return downloadFile(file, token)
+            }))
         })
-    })
-    .then(notifyDownloadSucceed) // This will be called once all the files are downloaded
-    .catch(notifyDownloadFailed) // If one of the files could not be downloaded, then catch will be called
-    //Code hidden to save some space
+        .then(function(f) {
+            files = f
+            return Q.all(files.map(function(file) {
+                return downloadMetadata(file.metaURL, token)
+            }))
+        })
+        .then(function(m) {
+            metadata = m
+            return saveDownloadedFilesInfo({
+                files : files,
+                metadata : metadata,
+                downloadToken : token
+            })
+        })
+        .then(notifyDownloadSucceed)
+        .catch(notifyDownloadFailed)
 }
                             </code>
                         </pre>
                     </section>
                     <section>
-                        <h3>Escenario 4</h3>
-                        <p>Simplificando con reduce</p>
+                        <h3>Reduce</h3>
                         <pre>
-                            <code data-trim contenteditable="false">
+                            <code data-trim content="false">
 function reduce(fnDict) {
     var accum = {},
         keys = Object.keys(fns),
@@ -296,25 +292,24 @@ function reduce(fnDict) {
         result
         ;
 
-    if(!fns.length) {
-        result = Q.when(accum)
-    } else {
-        result = fns.reduce(function(prev, next, index) {
-            return prev.then(function(data) {
-                accum[keys[index]] = data
-                return next(accum, data)
-            })
-        })
-    }
+        if(!fns.length) {
+            result = Q.when(accum)
+        } else {
+           result = fns.reduce(function(prev, next, index) {
+                return prev.then(function(data) {
+                    accum[keys[index]] = data
+                    return next(accum, data)
+                })
+           })
+        }
 
-    result
+    return result
 }
                             </code>
                         </pre>
                     </section>
                     <section>
-                        <h3>Escenario 4</h3>
-                        <p>Simplificando con reduce</p>
+                        <h3>Reduce</h3>
                         <pre>
                             <code data-trim contenteditable="false">
 function startDownloadOperation(fileURLs) {
@@ -342,11 +337,7 @@ function startDownloadOperation(fileURLs) {
                 <section>
                     <h3>Escenario 5</h3>
                     <p>Generators for the win!</p>
-                        <pre>
-                            <code data-trim contenteditable="false">
-                                //writing some code here
-                            </code>
-                        </pre>
+
                 </section>
             </div>
         </div>
@@ -356,9 +347,10 @@ function startDownloadOperation(fileURLs) {
         <script src="node_modules/lodash/index.js"></script>
         <script src="js/reveal.js"></script>
         <script src="js/timeline/timeline.js"></script>
+        <script src="js/promises/reduce.js"></script>
         <script src="js/download-files/download-files.js"></script>
         <script src="js/download-files/start-download-operation.js"></script>
-
+        <script src="js/views/button-listeners.js"></script>
         <script>
 
             // Full list of configuration options available at:
