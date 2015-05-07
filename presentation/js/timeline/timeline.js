@@ -45,7 +45,7 @@ function TimeLine() {
 TimeLine.prototype = Object.create(EventEmitter.prototype);
 
 TimeLine.prototype.trackRunningTime  = function(fn) {
-    let self = this;
+    var self = this;
 
     fn = fn || function() {};
     return function() {

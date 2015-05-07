@@ -68,8 +68,8 @@ var startDownloadOperationScene5 = async(function* (fileURLs) {
 
     try {
         token = yield requestToken();
-        files = yield Q.all(fileURLs.map(file => downloadFile(file, token)));
-        metadata = yield Q.all(files.map(file => downloadMetadata(file.metaURL, token)));
+        files = yield Q.all(fileURLs.map(function(file) { return downloadFile(file, token) }));
+        metadata = yield Q.all(files.map(function(file) { return downloadMetadata(file.metaURL, token) }));
         yield saveDownloadedFilesInfo(token, files, metadata)
     } catch(e) {
         throw new Error('Error completing the download operation. Try again later.')

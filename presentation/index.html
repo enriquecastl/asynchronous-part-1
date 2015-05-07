@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
 
-        <title>reveal.js - The HTML Presentation Framework</title>
+        <title>Asynchronous - El presente y futuro de los promises</title>
 
         <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
         <meta name="author" content="Hakim El Hattab">
@@ -72,6 +72,7 @@
                         <div class="events">
                         </div>
                         <span class="arrow"></span>
+                        <span class="time">T</span>
                     </div>
 
                     <div class="actions large-width">
@@ -144,8 +145,8 @@ function notifyProgress(){
                         <p>Usando métodos done, catch y progress</p>
                         <pre>
                             <code data-trim contenteditable="false">
-function startDownloadOperation() {
-    var downloadPromise = downloadFile('file1');
+function startDownloadOperation(fileURL) {
+    var downloadPromise = downloadFile(fileURL);
 
     return downloadPromise
         .then(notifyDownloadSucceed)
@@ -178,19 +179,17 @@ function notifyProgress(){
                         <h3>Escenario 2</h3>
                         <p>Enlazar promises</p>
                         <pre>
-                            <code data-trim contenteditable="false">
+                            <code data-trim contenteditable="true">
 function startDownloadOperation(fileURL) {
     var tokenPromise = requestToken()
         ;
 
-    tokenPromise
+    return tokenPromise
     .then(function(token) {
         return downloadFile(fileURL, token)
     })
     .then(notifyDownloadSucceed)
     .catch(notifyDownloadFailed)
-
-    eventEmitter.emit('download.started', { file : fileURL })
 }
                             </code>
                         </pre>
@@ -207,7 +206,7 @@ function startDownloadOperation(fileURL) {
                 <section>
                     <section>
                         <h3>Escenario 3</h3>
-                        <p>Map and Reduce</p>
+                        <p>Map and Reduce (foldl)</p>
                     </section>
                     <section>
                         <h3>Map</h3>
@@ -389,7 +388,6 @@ var startDownloadOperationScene5 = async(function* (fileURLs) {
         <script src="node_modules/lodash/index.js"></script>
         <script src="js/reveal.js"></script>
         <script src="js/async/async.js"></script>
-        <script src="js/timeline/performance-polyfill.js"></script>
         <script src="js/timeline/timeline.js"></script>
         <script src="js/promises/reduce.js"></script>
         <script src="js/download-files/download-files.js"></script>

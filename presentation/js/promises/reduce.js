@@ -1,6 +1,6 @@
 function reduce(fnDict) {
     var accum = {},
-        keys = Object.keys(fns),
+        keys = Object.keys(fnDict),
         fns = keys.map(function(key) { return fnDict[key] }),
         result
         ;
@@ -10,10 +10,12 @@ function reduce(fnDict) {
     } else {
         result = fns.reduce(function(prev, next, index) {
             return prev.then(function(data) {
-                accum[keys[index]] = data;
+                if(keys[index-1]) {
+                    accum[keys[index - 1]] = data;
+                }
                 return next(accum, data)
             })
-        })
+        }, Q.when(accum))
     }
 
     return result
